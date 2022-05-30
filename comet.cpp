@@ -64,6 +64,15 @@ void Comet::trigger()
     }
 }
 
+void Comet::clear()
+{
+    for (int i = 0; i < maxComets; i++)
+    {
+        cometPositions[i] = -1;
+    }
+    Pattern::clear();
+}
+
 void Comet::fade()
 {
     for (int i = 0; i < maxComets; i++)

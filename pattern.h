@@ -22,4 +22,5 @@ public:
     virtual void move(void);
     virtual void show(void);
     virtual void trigger(void);
+    virtual void clear(void);
 };

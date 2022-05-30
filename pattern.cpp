@@ -2,13 +2,13 @@
 
 Pattern::Pattern() {}
 
-Pattern::Pattern(CRGB *arr, int size, int delay, uint8_t sat, uint8_t bright)
+Pattern::Pattern(CRGB *a, int s, int del, uint8_t sat, uint8_t bright)
 {
-  arr = arr;
-  size = size;
+  arr = a;
+  size = s;
   saturation = sat;
   brightness = bright;
-  delay = delay;
+  delay = del;
 }
 
 void Pattern::setCHSV(int pos, uint8_t hue, uint8_t bright)
@@ -22,4 +22,9 @@ void Pattern::setCHSV(int pos, uint8_t hue, uint8_t bright)
 int Pattern::getDelay()
 {
   return delay;
+}
+
+void Pattern::clear()
+{
+  FastLED.clear();
 }

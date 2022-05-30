@@ -19,4 +19,5 @@ public:
     void show(void);
     void move(void);
     void trigger(void);
+    void clear(void);
 };
