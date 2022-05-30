@@ -1,3 +1,4 @@
+#include "Arduino.h"
 #include "comet.h"
 #include "theater.h"
 #include "rainbow.h"
@@ -5,6 +6,7 @@
 #define NUM_LEDS 300
 
 #define DATA_PIN 9
+#define PATTERN_BUTTON_PIN 7
 
 CRGB leds[NUM_LEDS];
 
@@ -15,23 +17,22 @@ const int maxBrightness = 130;
 
 // Comet pattern object.
 const int tailLength = 25;
-int cometDelay = 10;
+int cometDelay = 5;
 Comet comet(leds, NUM_LEDS, cometDelay, tailLength, maxSaturation, maxBrightness);
 
 // Theater pattern object.
 uint8_t theaterHue = 15;
-int theaterDelay = 100;
+int theaterDelay = 250;
 Theater theater(leds, NUM_LEDS, theaterDelay, theaterHue, maxSaturation, maxBrightness);
 
 // Rainbow pattern object.
 uint8_t rainbowHue = 15;
-int rainbowDelay = 50;
+int rainbowDelay = 5;
 Rainbow rainbow(leds, NUM_LEDS, rainbowDelay, rainbowHue, maxSaturation, maxBrightness);
 
 Pattern *currentPattern = &comet;
 
 int patternIndex = 0;
-
 void nextPattern()
 {
   currentPattern->clear();
@@ -59,6 +60,7 @@ void setup()
   }
   delay(1000);
 
+  pinMode(PATTERN_BUTTON_PIN, INPUT);
   FastLED.addLeds<WS2813, DATA_PIN, RGB>(leds, NUM_LEDS);
   // initializePatterns();
   startMillis = millis();
@@ -66,10 +68,32 @@ void setup()
 
 void loop()
 {
-  currentPattern->move();
-  currentPattern->show();
-  FastLED.show();
-  delay(currentPattern->getDelay());
+  int currentMillis = millis();
+  checkPatternButton();
+  if (currentMillis - startMillis >= currentPattern->getDelay())
+  {
+    currentPattern->move();
+    currentPattern->show();
+    FastLED.show();
+    startMillis = millis();
+  }
+  delay(1);
+}
+
+int patternButton = LOW;
+boolean patternButtonPressed = false;
+void checkPatternButton()
+{
+  patternButton = digitalRead(PATTERN_BUTTON_PIN);
+  if (patternButtonPressed == false && patternButton == HIGH)
+  {
+    patternButtonPressed = true;
+    nextPattern();
+  }
+  else if (patternButton == LOW)
+  {
+    patternButtonPressed = false;
+  }
 }
 
 void serialEvent()
@@ -78,13 +102,7 @@ void serialEvent()
   {
     // get the new byte:
     char inChar = (char)Serial.read();
-
-    Serial.println(inChar);
-    if (inChar == 'p')
-    {
-      nextPattern();
-    }
-    else if (inChar == 'c')
+    if (inChar == 'c')
     {
       currentPattern->trigger();
     }
