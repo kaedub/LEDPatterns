@@ -1,5 +1,6 @@
 /ArduinoCore-avr
 /avr-libc
 /FastLED
+/RF24
 .DS_Store
 .vscode

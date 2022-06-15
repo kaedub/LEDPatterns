@@ -1,4 +1,5 @@
-#pragma once
+#ifndef COMET_H
+#define COMET_H
 #include "pattern.h"
 
 class Comet : public Pattern
@@ -11,7 +12,7 @@ private:
     // This a parallel array to comet_positions and holds the hue for each comet moving through the strip.
     int cometHues[maxComets];
     int tailLength;
-    // bool sparkleTail;
+    bool sparkleTail;
     void fade();
 
 public:
@@ -21,3 +22,5 @@ public:
     void trigger(void);
     void clear(void);
 };
+
+#endif

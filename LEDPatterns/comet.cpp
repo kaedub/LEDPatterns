@@ -10,6 +10,7 @@ Comet::Comet(
     : Pattern(ledArray, numLeds, delay, saturation, brightness)
 {
     tailLength = tail;
+    sparkleTail = true;
     for (int i = 0; i < maxComets; i++)
     {
         cometPositions[i] = -1;
@@ -26,6 +27,7 @@ void Comet::show()
         }
     }
     fade();
+    Pattern::show();
 }
 
 void Comet::move()
@@ -77,13 +79,23 @@ void Comet::fade()
 {
     for (int i = 0; i < maxComets; i++)
     {
-        for (int tailSegment = 0; tailSegment <= tailLength; tailSegment++)
+        for (int tailSegment = 0; tailSegment < tailLength; tailSegment++)
         {
             int segmentPos = cometPositions[i] - (tailSegment + 1);
-            int segmentBrightness = brightness - (brightness / (tailLength + 1)) * (tailSegment + 1);
+            int segmentBrightness = brightness - (brightness / tailLength) * (tailSegment + 1);
             if (segmentPos >= 0 && segmentPos < size)
             {
-                setCHSV(segmentPos, cometHues[i], segmentBrightness);
+                int h = cometHues[i];
+                if (sparkleTail && tailSegment > 1 && tailSegment != tailLength - 1)
+                {
+                    int chanceOfSparkle = 50;
+                    if (random8(100) < chanceOfSparkle)
+                    {
+                        h += random8(25);
+                        segmentBrightness += random8(brightness / 2);
+                    }
+                }
+                setCHSV(segmentPos, h, segmentBrightness);
             }
         }
     }

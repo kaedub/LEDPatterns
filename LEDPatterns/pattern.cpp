@@ -24,6 +24,15 @@ int Pattern::getDelay()
   return delay;
 }
 
+void move() {}
+
+void show()
+{
+  FastLED.show();
+}
+
+void trigger() {}
+
 void Pattern::clear()
 {
   FastLED.clear();

@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PATTERN_H
+#define PATTERN_H
 #include <FastLED.h>
 
 class Pattern
@@ -19,8 +20,14 @@ public:
     Pattern(CRGB *arr, int size, int delay, uint8_t sat, uint8_t bright);
     void setCHSV(int pos, uint8_t hue, uint8_t brightness);
     int getDelay();
+    // Moves the pattern by modifying the CRGB array
     virtual void move(void);
+    // Show the pattern by calling setCHSV
     virtual void show(void);
+    // Trigger pattern changes
     virtual void trigger(void);
+    // Clear pattern data and set all LEDs to 0 brightness
     virtual void clear(void);
 };
+
+#endif

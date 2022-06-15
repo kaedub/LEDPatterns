@@ -4,18 +4,24 @@ Theater::Theater(
     CRGB *ledArray,
     int numLeds,
     int delay,
-    uint8_t hue,
     uint8_t saturation,
-    uint8_t brightness)
+    uint8_t brightness,
+    uint8_t hueMod = 1)
     : Pattern(ledArray, numLeds, delay, saturation, brightness)
 {
-    hue = hue;
+    hue = 0;
     offset = 0;
+    hueModifier = 1;
 }
 
 void Theater::setHue(uint8_t h)
 {
     hue = h;
+}
+
+void Theater::setHueModifier(uint8_t h)
+{
+    hueModifier = h;
 }
 
 void Theater::show()
@@ -31,7 +37,8 @@ void Theater::show()
             setCHSV(i, hue, 0);
         }
     }
-    hue++;
+    hue += 1;
+    Pattern::show();
 }
 
 void Theater::move()
@@ -48,5 +55,5 @@ void Theater::move()
 
 void Theater::trigger()
 {
-    hue += 100;
+    // hue += 100;
 }
