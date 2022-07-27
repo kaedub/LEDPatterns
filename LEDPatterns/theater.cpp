@@ -30,15 +30,14 @@ void Theater::show()
     {
         if ((i + offset) % 2 == 0)
         {
-            setCHSV(i, hue + i, brightness);
+            setCHSV(i, hue + 5, brightness);
         }
         else
         {
             setCHSV(i, hue, 0);
         }
     }
-    hue += 1;
-    Pattern::show();
+    hue += hueModifier;
 }
 
 void Theater::move()

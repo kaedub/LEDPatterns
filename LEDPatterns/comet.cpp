@@ -27,7 +27,6 @@ void Comet::show()
         }
     }
     fade();
-    Pattern::show();
 }
 
 void Comet::move()

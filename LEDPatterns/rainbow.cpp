@@ -10,7 +10,7 @@ Rainbow::Rainbow(
     : Pattern(ledArray, numLeds, delay, saturation, brightness)
 {
     hue = hue;
-    glitterOn = true;
+    glitterOn = false;
     hueModifier = 1;
 }
 
@@ -26,14 +26,13 @@ void Rainbow::show()
         setCHSV(i, hue + i, brightness);
         if (glitterOn)
         {
-            int chanceOfGlitter = 30;
+            int chanceOfGlitter = 10;
             if (random8(100) < chanceOfGlitter)
             {
                 setCHSV(i, hue + 100, brightness);
             }
         }
     }
-    Pattern::show();
 }
 
 void Rainbow::move()
